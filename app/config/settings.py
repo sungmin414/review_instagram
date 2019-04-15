@@ -19,11 +19,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 # 유저가 업로드한 파일에 접근하고자 할 때의 prefix URL (settings.MEDIA_URL)
 # FileField, MediaField의 URL의 아래 설정 기준으로 바뀜
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
+
+# 정적 파일을 검색할 경로 목록
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/

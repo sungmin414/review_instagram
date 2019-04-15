@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>포스트 추가</h2>
+    <form action="#" method="POST">
+    {% csrf_token %}
+        <div class="form-group">
+            <label for="id-photo">사진첨부</label>
+            <input type="file" id="id-photo" class="form-control-file">
+        </div>
+        <button class="btn btn-primary btn-block">업로드</button>
+    </form>
+{% endblock %}

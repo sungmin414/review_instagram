@@ -8,3 +8,11 @@ def post_list(request):
         'posts': posts,
     }
     return render(request, 'posts/post_list.html', context)
+
+
+def post_create(request):
+    # posts = Post.objects.create()
+    # context = {
+    #     'posts': posts
+    # }
+    return render(request, 'posts/post_create.html')

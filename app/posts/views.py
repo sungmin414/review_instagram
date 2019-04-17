@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from members.models import User
+# from members.models import User
 from .forms import PostCreateForm
 from .models import Post
 
@@ -21,7 +21,11 @@ def post_create(request):
 
     if request.method == 'POST':
         post = Post(
-            author=User.objects.first(),
+            # SessionMiddleware
+            # AuthenticationMiddleware
+            # 를 통해서 request의 user속성에
+            # 해당 사용자 인스턴스가 할당
+            author=request.user,
             photo=request.FILES['photo'],
         )
         post.save()

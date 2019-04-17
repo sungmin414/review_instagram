@@ -5,7 +5,7 @@ class PostCreateForm(forms.Form):
     photo = forms.ImageField(
         widget=forms.FileInput(
             # HTML위젯의 속성 설정
-            # form-control-file클래스를 사용
+            # form-control-file클래스를 사
             attrs={
                 'class': 'form-control-file',
             }

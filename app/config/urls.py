@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # /posts/로 들어오는 URL은 posts.urls모듈에서 처리
     path('posts/', include('posts.urls')),
+    path('members/', include('members.urls')),
 
 ]
 # MEDIA_URL로 시작하는 URL은 static() 내의 serve() 함수를 통해

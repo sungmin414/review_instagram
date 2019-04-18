@@ -1,8 +1,15 @@
 from django import forms
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
 
 class LoginForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # 이 Form instance에 주어진 데이터가 유효하면
+        # authenticate에서 리턴된 User객체를 채울 속성
+        self._user = None
+
     username = forms.CharField(
         # 일반 input[type=text]
         # form-control CSS클래스 사용
@@ -21,6 +28,24 @@ class LoginForm(forms.Form):
             }
         )
     )
+
+    def clean(self):
+        super().clean()
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        if user is None:
+            raise forms.ValidationError('사용자명 또는 비밀번호가 다릅니다.')
+        self._user = user
+
+    @property
+    def user(self):
+        # 유효성 검증을 싱행했을 때 (is_valid())
+        # 만약 필드나 폼에서 유효하지 않은 항목이 있따면
+        # 이 부분에 추가됨
+        if self.errors:
+            raise ValueError('폼의 데이터 유효성 검증에 실패하였습니다')
+        return self._user
 
 
 class SignupForm(forms.Form):
@@ -73,3 +98,4 @@ class SignupForm(forms.Form):
             password=forms.cleaned_data['password1'],
         )
         return user
+

@@ -7,28 +7,22 @@ from .forms import LoginForm, SignupForm
 
 
 def login_view(request):
+    context = {}
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            # 인증성공시
-            login(request, user)
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            login(request, form.user)
+            # 주어진 username, password로
+            # authenticate에 성공했다
+            # request와 authenticate된 User를 사용해서
+            # login()처리후
             return redirect('posts:post-list')
-        else:
-            form = LoginForm(),
-            context = {
-                'form': form,
-                'error': '정보가 일치하지 않습니다'
-            }
-            return render(request, 'members/login.html', context)
 
     else:
         form = LoginForm()
-        context = {
-            'form': form,
-        }
-        return render(request, 'members/login.html', context)
+
+    context['form'] = form
+    return render(request, 'members/login.html', context)
 
 
 def logout_view(request):

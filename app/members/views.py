@@ -16,8 +16,12 @@ def login_view(request):
             login(request, user)
             return redirect('posts:post-list')
         else:
-            # 인증실패시
-            pass
+            form = LoginForm(),
+            context = {
+                'form': form,
+                'error': '정보가 일치하지 않습니다'
+            }
+            return render(request, 'members/login.html', context)
 
     else:
         form = LoginForm()
@@ -35,7 +39,7 @@ def logout_view(request):
 
 def signup_view(request):
     context = {
-        'form': SignupForm,
+        'form': SignupForm(),
     }
     if request.method == 'POST':
         username = request.POST['username']

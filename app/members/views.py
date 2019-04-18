@@ -40,10 +40,20 @@ def signup_view(request):
         password2 = request.POST['password2']
 
         if User.objects.filter(username=username).exists():
-            return HttpResponse(f'사용자명({username})은 이미 사용중입니다')
+            form = SignupForm()
+            context = {
+                'form': form,
+                'error': f'({username})은 이미 사용중입니다'
+            }
+            return render(request, 'members/signup.html', context)
         if password1 != password2:
-            return HttpResponse('비밀번호와 비밀번호 확인란의 값이 일치하지 않습니다')
-
+            form = SignupForm()
+            context = {
+                'form': form,
+                'error': '비밀번호와 비밀번호 확인란의 값이 일치하지 않습니다'
+            }
+            return render(request, 'members/signup.html', context)
+        
         # create_user메서드는 create와 달리 자동으로 password해싱을 해줌
         user = User.objects.create_user(
             username=username,

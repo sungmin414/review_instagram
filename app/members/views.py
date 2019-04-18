@@ -38,24 +38,26 @@ def logout_view(request):
 
 
 def signup_view(request):
-    context = {
-        'form': SignupForm(),
-    }
+    context = {}
     if request.method == 'POST':
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-
-        if User.objects.filter(username=username).exists():
-            context['error'] = f'({username})은 이미 사용중입니다'
-        elif password1 != password2:
-            context['error'] = '비밀번호와 비밀번호 확인란의 값이 일치하지 않습니다'
-        else:
-            # create_user메서드는 create와 달리 자동으로 password해싱을 해줌
+        # POST로 전달된 데이터를 확인
+        # 올바르다면 User를 생성하고 post-list화면으로 이동
+        # (is_valid()가 True면 올바르다고 가정)
+        form = SignupForm(request.POST)
+        if form.is_valid():
             user = User.objects.create_user(
-                username=username,
-                password=password1,
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'],
             )
             login(request, user)
+            # form이 유효하면 여기서 함수 실행 종료
             return redirect('posts:post-list')
+        # form이 유효하지 않을 경우, 데이터가 바인딩된 상태로 if-else구문 아래의 render까지 이동
+    else:
+        # GET요청시 빈 Form을 생성
+        form = SignupForm()
+    # GET 요청시 또는 POST로 전달된 데이터가 올바르지 않을 경우
+    # signup.html에 빈 Form또는 올바르지 않은 데이터에 대한 정보가 포함된 Form을 전달해서
+    # 동적으 form을 렌더링
+    context['form'] = form
     return render(request, 'members/signup.html', context)

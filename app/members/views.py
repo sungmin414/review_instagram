@@ -45,10 +45,7 @@ def signup_view(request):
         # (is_valid()가 True면 올바르다고 가정)
         form = SignupForm(request.POST)
         if form.is_valid():
-            user = User.objects.create_user(
-                username=form.cleaned_data['username'],
-                password=form.cleaned_data['password1'],
-            )
+            user = form.save()
             login(request, user)
             # form이 유효하면 여기서 함수 실행 종료
             return redirect('posts:post-list')

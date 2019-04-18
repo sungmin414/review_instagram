@@ -31,6 +31,10 @@ STATICFILES_DIRS = [
     STATIC_DIR,
 ]
 
+# login_required 데코레이터에 의해
+# 로그인 페이지로 이동해야 할때, 이동할 URL pattern name
+LOGIN_URL = 'members:login'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 

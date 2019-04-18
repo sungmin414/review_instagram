@@ -12,10 +12,11 @@ def login_view(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             login(request, form.user)
-            # 주어진 username, password로
-            # authenticate에 성공했다
-            # request와 authenticate된 User를 사용해서
-            # login()처리후
+            # GET parameter에 'next'가 전달되었다면
+            # 해당 키의 값으로 redirect
+            next_path = request.GET.get('next')
+            if next_path:
+                return redirect(next_path)
             return redirect('posts:post-list')
 
     else:

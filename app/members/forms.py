@@ -45,6 +45,7 @@ class SignupForm(forms.Form):
             }
         )
     )
+
     def clean_username(self):
         # username이 유일한지 검사
         data = self.cleaned_data['username']
@@ -57,4 +58,4 @@ class SignupForm(forms.Form):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
         if password1 != password2:
-            raise forms.ValidationError('비밀번호와 비밀번호 확인란의 값이 다릅니')
+            raise forms.ValidationError('비밀번호와 비밀번호 확인란의 값이 다릅니다')

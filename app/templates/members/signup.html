@@ -27,7 +27,7 @@
 
 {#                    각 Field가 가진 Error들을 input밑에 출력#}
                     {% for error in field.errors %}
-                        <small class="form-text text-muted">{{ error }}</small>
+                        <div class="invalid-feedback">{{ error }}</div>
                     {% endfor %}
                 </div>
             {% endfor %}

@@ -10,15 +10,13 @@ def post_list(request):
     posts = Post.objects.all()
     context = {
         'posts': posts,
+
     }
     return render(request, 'posts/post_list.html', context)
 
 
 @login_required
 def post_create(request):
-    if not request.user.is_authenticated:
-        return redirect('members:login')
-
     context = {}
     if request.method == 'POST':
         form = PostCreateForm(request.POST, request.FILES)
@@ -32,3 +30,7 @@ def post_create(request):
 
     context['form'] = form
     return render(request, 'posts/post_create.html', context)
+
+
+def comment_create(request, post_pk):
+    pass

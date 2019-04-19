@@ -14,6 +14,26 @@
                     <!-- Card의 본문 부분 -->
                     <div class="card-body">
                         <img src="{{ post.photo.url }}" class="card-img-top">
+
+                        <ul class="list-unstyled">
+                            {% for comment in post.comments.all %}
+                                <li>
+                                    <strong>{{ comment.author }}</strong>
+                                    <span>{{ comment.content }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+{#                        댓글 작성 form구현#}
+{#                        1. 유저가 로그인 한 경우에만 보여지도록 함#}
+{#                        2. 내부요소는 atextarea[name=content]와 버튼하나#}
+{#                        3. action속성의 값을 위의 'comment_create' view에 해당하는 URL로 지정#}
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'posts:comment-create' post_pk=post.pk %}">
+                            {% csrf_token %}
+                                <textarea name="content" id="" cols="30" rows="2" class="form-control"></textarea>
+                                <button type="submit" class="btn btn-primary btn-block">작성</button>
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>

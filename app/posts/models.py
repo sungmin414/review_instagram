@@ -64,6 +64,16 @@ class Comment(models.Model):
                 for name in re.findall(self.TAG_PATTERN, self.content)]
         self.tags.set(tags)
 
+    @property
+    def html(self):
+        # 자신의 content 속성값에서
+        # "#태그명"에 해당하는 문자열을
+        # 아래와 같이 변경
+        # <a href="/explore/tags/{태그명}/">{태그명}</a>
+        # re.sub를 사용
+        return re.sub(self.TAG_PATTERN, r'<a href="/explore/tags/\g<tag>/">#\g<tag></a>', self.content,)
+        pass
+
 
 class HashTag(models.Model):
     name = models.CharField(

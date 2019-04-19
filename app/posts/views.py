@@ -53,4 +53,5 @@ def comment_create(request, post_pk):
             comment.post = post
             comment.author = request.user
             comment.save()
+
             return redirect('posts:post-list')

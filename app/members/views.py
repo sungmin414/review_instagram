@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import LoginForm, SignupForm
+from .forms import LoginForm, SignupForm, UserProfileForm
 
 
 def login_view(request):
@@ -53,3 +54,12 @@ def signup_view(request):
     # 동적으 form을 렌더링
     context['form'] = form
     return render(request, 'members/signup.html', context)
+
+
+@login_required
+def profile(request):
+    form = UserProfileForm(instance=request.user)
+    context = {
+        'form': form,
+    }
+    return render(request, 'members/profile.html', context)

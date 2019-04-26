@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -65,6 +66,9 @@ def profile(request):
             instance=request.user)
         if form.is_valid():
             form.save()
+
+            # messages.add_message(request, messages.SUCCESS, '프로필 수정이 완료되었습니다.',)
+            messages.success(request, '프로필 수정이 완료되었습니다.')
 
     form = UserProfileForm(instance=request.user)
     context = {

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.contrib import messages
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 사용자가 업로드한 파일이 저장될 Base디렉토리 (settings.MEDIA_ROOT)
 
@@ -75,6 +77,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+# 템플릿에서 message.tags에 사용될 값 커스터마이징
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
 
 TEMPLATES = [
     {

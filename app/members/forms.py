@@ -121,3 +121,36 @@ class UserProfileForm(forms.ModelForm):
             'site',
             'introduce',
         ]
+
+        widgets = {
+            'email': forms.EmailInput(
+                attrs={
+                    'class': 'form-control',
+                },
+            ),
+            'last_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'first_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'img_profile': forms.ClearableFileInput(
+                attrs={
+                    'class': 'form-control-file',
+                }
+            ),
+            'site': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'introduce': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                }
+            )
+        }

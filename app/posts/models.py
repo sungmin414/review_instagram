@@ -26,6 +26,13 @@ class Post(models.Model):
         verbose_name_plural = f'{verbose_name} 목록'
         ordering = ['-pk']
 
+    def like_toggle(self, user):
+        # 전달받은 user가 이 Post를 Like한다면 해제
+        # 안되어있다면 Like처리
+        postlike, postlike_created = self.postlike_set.get_or_create(user=user)
+        if not postlike_created:
+            postlike.delete()
+
 
 class Comment(models.Model):
     TAG_PATTERN = re.compile(r'#(?P<tag>\w+)')
@@ -103,3 +110,25 @@ class HashTag(models.Model):
         verbose_name_plural = f'{verbose_name} 목록'
 
 
+class PostLike(models.Model):
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return 'Post[{post_pk}] Like (User:{username})'.format(
+            post_pk=self.post_pk,
+            username=self.user.username,
+        )
+
+    class Meta:
+        # 특정 User가 특정 Post를 좋아요 누른 정보는 unique_together
+        unique_together = (
+            ('post', 'user'),
+        )

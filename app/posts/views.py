@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 # from members.models import User
+from django.urls import reverse
+
 from .forms import PostCreateForm, CommentCreateForm, CommentForm, PostForm
 from .models import Post, Comment, HashTag
 
@@ -85,4 +87,5 @@ def post_like_toggle(request, post_pk):
     if request.method == 'POST':
         post = get_object_or_404(Post, pk=post_pk)
         post.like_toggle(request.user)
-        return redirect('posts:post-list')
+        url = reverse('posts:post-list')
+        return redirect(url + f'#post-{post_pk}')

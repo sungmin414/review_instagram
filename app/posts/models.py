@@ -21,6 +21,13 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through='PostLike',
+        related_name='like_posts',
+        related_query_name='like_post',
+    )
+
     class Meta:
         verbose_name = '포스트'
         verbose_name_plural = f'{verbose_name} 목록'

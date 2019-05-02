@@ -4,6 +4,7 @@ import json
 from pprint import pprint
 
 import requests
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -94,9 +95,9 @@ def facebook_login(request):
     code = request.GET.get('code')
 
     params = {
-        'client_id': 289182795345380,
+        'client_id': settings.FACEBOOK_APP_ID,
         'redirect_uri': 'http://localhost:8000/members/facebook-login/',
-        'client_secret': 'e5f824df2e58951c8762c3a9b61bb2d6',
+        'client_secret': settings.FACEBOOK_APP_SECRET,
         'code': code,
     }
     # request token을 access token으로 교환

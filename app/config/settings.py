@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import json
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -22,6 +22,8 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
+SECRETS_DIR = os.path.join(ROOT_DIR, '.secrets')
+
 
 # 유저가 업로드한 파일에 접근하고자 할 때의 prefix URL (settings.MEDIA_URL)
 # FileField, MediaField의 URL의 아래 설정 기준으로 바뀜
@@ -33,6 +35,12 @@ STATICFILES_DIRS = [
     STATIC_DIR,
 ]
 
+# .secrets/base.json에 있는 내용을 읽어서
+# parsing하여 파이썬 dict객체를 가져와 secrets변수에 할당
+secrets = json.load(open(os.path.join(SECRETS_DIR, 'base.json')))
+FACEBOOK_APP_ID = secrets['FACEBOOK_APP_ID']
+FACEBOOK_APP_SECRET = secrets['FACEBOOK_APP_SECRET']
+
 # login_required 데코레이터에 의해
 # 로그인 페이지로 이동해야 할때, 이동할 URL pattern name
 LOGIN_URL = 'members:login'
@@ -41,7 +49,7 @@ LOGIN_URL = 'members:login'
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'z3*n4!a5m$z9mne0fx35g94z@5pc+_#5x_9%*gt^t653egg$v6'
+SECRET_KEY = secrets['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
